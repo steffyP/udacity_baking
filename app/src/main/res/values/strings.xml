@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Baking Master</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="show_receipe">Show Receipe</string>
+    <string name="servings">Makes: %d servings</string>
+    <string name="steps">Preparation: %d steps</string>
+    <string name="error_no_connection">Error loading receipes.\nCheck internet connection.</string>
+</resources>
