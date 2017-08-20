@@ -6,5 +6,8 @@
 
     <color name="blackAlpha">#66000000</color>
     <color name="whiteAlpha">#66FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="grey">#606060</color>
+    <color name="colorAccent_alpha">#66ff9800</color>
 
 </resources>

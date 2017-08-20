@@ -1,10 +1,7 @@
 package nanodegree.udacity.stefanie.at.bakingmaster;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +13,9 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String FRAGMENT_RECIPE_LIST = "fragment_recipe_list";
+    public static final String FRAGMENT_INSTRUCTIONS = "fragment_instructions";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment listFragment = new ReceiptListFragment();
+        Fragment listFragment = new RecipeListFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.content, listFragment, "listfragment").commit();
+                .addToBackStack(FRAGMENT_RECIPE_LIST)
+                .add(R.id.content, listFragment, FRAGMENT_RECIPE_LIST).commit();
 
     }
 
