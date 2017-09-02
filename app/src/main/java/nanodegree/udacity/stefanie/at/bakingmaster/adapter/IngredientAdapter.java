@@ -18,6 +18,8 @@ import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
  */
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
+    private int defaultColor;
+
     public interface IngredientCheckCallback {
         void ingredientChecked(int position, boolean checked);
     }
@@ -69,7 +71,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     private void setIngredientUnchecked(CheckBox checkbox, TextView textView) {
         checkbox.setChecked(false);
-        textView.setTextColor(context.getResources().getColor(R.color.black));
+        textView.setTextColor(defaultColor);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -82,7 +84,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             super(itemView);
             this.checkbox = itemView.findViewById(R.id.checkbox_ingredient);
             this.textView = itemView.findViewById(R.id.ingredient);
-
+            if(defaultColor == 0) defaultColor = textView.getTextColors().getDefaultColor();
             itemView.setOnClickListener(this);
             checkbox.setClickable(false);
         }

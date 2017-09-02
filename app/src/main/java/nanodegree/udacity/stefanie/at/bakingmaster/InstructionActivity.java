@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import nanodegree.udacity.stefanie.at.bakingmaster.adapter.IngredientAdapter;
-import nanodegree.udacity.stefanie.at.bakingmaster.adapter.StepAdapter;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
 import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.data.Step;
+import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.InstructionFragment;
 
 import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;
@@ -29,20 +26,18 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
     private static final String TAG = InstructionActivity.class.getSimpleName();
     public static final String EXTRA_RECIPE = "extra_recipe";
 
-    private RecyclerView ingredientsRecyclerview;
-    private RecyclerView stepsRecyclerView;
-    private Recipe recipe;
-    private View ingredientView;
-    private ImageView imageViewArrow;
-    private boolean twoPane;
 
+    private Recipe recipe;
+    private boolean twoPane;
+    private Step step;
+    private int stepPos;
+    private DetailsFragment fragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction);
         recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
-        getSupportActionBar().setTitle(recipe.getName());
 
         Fragment fragment = new InstructionFragment();
         Bundle bundle = new Bundle();
@@ -53,8 +48,47 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
                 .replace(R.id.container, fragment)
                 .commit();
 
-        twoPane = false;
-        
+        View view = findViewById(R.id.container_details);
+        if (view == null) {
+            twoPane = false;
+        } else {
+            twoPane = true;
+        }
+
+        if (twoPane) {
+            if (savedInstanceState == null) {
+                stepPos = 0;
+            } else {
+                stepPos = savedInstanceState.getInt(EXTRA_STEP);
+            }
+            step = recipe.getSteps().get(stepPos);
+            setContentTwoPane();
+        } else {
+            getSupportActionBar().setTitle(recipe.getName());
+
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(EXTRA_STEP, stepPos);
+    }
+
+    private void setContentTwoPane() {
+        fragment = new DetailsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(EXTRA_STEP, stepPos);
+        bundle.putParcelable(EXTRA_RECIPE, recipe);
+        fragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_details, fragment)
+                .commit();
+
+        getSupportActionBar().setTitle(step.getShortDescription());
     }
 
     @Override
@@ -65,7 +99,8 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
             i.putExtra(EXTRA_STEP, pos);
             startActivity(i);
         } else {
-
+            stepPos = 0;
+            fragment.updateContent(pos);
         }
     }
 }

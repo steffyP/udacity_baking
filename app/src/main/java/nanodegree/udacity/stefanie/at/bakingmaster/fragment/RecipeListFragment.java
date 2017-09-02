@@ -49,9 +49,9 @@ public class RecipeListFragment extends Fragment implements LoaderManager.Loader
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), getResources().getInteger(R.integer.grid_span_count_portrait)));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), getResources().getInteger(R.integer.grid_span_count_landscape)));
 
         }
         recipeAdapter = new RecipeAdapter(getContext(), this);

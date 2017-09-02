@@ -22,7 +22,6 @@ import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
 import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
 
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
-import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;
 
 /**
  * Created by steffy on 02/09/2017.
