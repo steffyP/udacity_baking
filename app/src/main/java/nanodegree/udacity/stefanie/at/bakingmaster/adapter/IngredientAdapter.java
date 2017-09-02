@@ -18,12 +18,20 @@ import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
  */
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
+    public interface IngredientCheckCallback {
+        void ingredientChecked(int position, boolean checked);
+    }
+
+    private IngredientCheckCallback callback;
     private final Context context;
     private final ArrayList<Ingredient> ingredients;
 
-    public IngredientAdapter(Context context, ArrayList<Ingredient> ingredients) {
+    public IngredientAdapter(Context context,
+                             ArrayList<Ingredient> ingredients,
+                             IngredientCheckCallback callback) {
         this.context = context;
         this.ingredients = ingredients;
+        this.callback = callback;
     }
 
 
@@ -40,6 +48,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         Ingredient i = ingredients.get(position);
         String ingredient = i.getQuantity() + " " + i.getMeasure() + " " + i.getIngredient();
         holder.textView.setText(ingredient);
+
+        if (i.isChecked()) {
+            setIngredientChecked(holder.checkbox, holder.textView);
+        } else {
+            setIngredientUnchecked(holder.checkbox, holder.textView);
+        }
     }
 
     @Override
@@ -48,9 +62,21 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         return ingredients.size();
     }
 
+    private void setIngredientChecked(CheckBox checkbox, TextView textView) {
+        checkbox.setChecked(true);
+        textView.setTextColor(context.getResources().getColor(R.color.grey));
+    }
+
+    private void setIngredientUnchecked(CheckBox checkbox, TextView textView) {
+        checkbox.setChecked(false);
+        textView.setTextColor(context.getResources().getColor(R.color.black));
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         private CheckBox checkbox;
         private TextView textView;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,13 +90,16 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         @Override
         public void onClick(View view) {
             if (checkbox.isChecked()) {
-                checkbox.setChecked(false);
-                textView.setTextColor(view.getContext().getResources().getColor(R.color.black));
+                setIngredientUnchecked(checkbox, textView);
+                if (callback != null) callback.ingredientChecked(getAdapterPosition(), false);
             } else {
-                checkbox.setChecked(true);
-                textView.setTextColor(view.getContext().getResources().getColor(R.color.grey));
+                setIngredientChecked(checkbox, textView);
+                if (callback != null) callback.ingredientChecked(getAdapterPosition(), true);
+
 
             }
+
         }
+
     }
 }

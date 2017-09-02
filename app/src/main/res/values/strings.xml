@@ -12,4 +12,8 @@
     <string name="ingredients">Ingredients</string>
     <string name="directions">Directions</string>
     <string name="for_servings">for %d servings</string>
+    <string name="step">Step %d</string>
+    <string name="previous_step">Previous Step</string>
+    <string name="next_step">Next Step</string>
+    <string name="no_video_available">No video available</string>
 </resources>

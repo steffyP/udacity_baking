@@ -1,5 +1,6 @@
-package nanodegree.udacity.stefanie.at.bakingmaster;
+package nanodegree.udacity.stefanie.at.bakingmaster.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,11 +16,14 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity;
+import nanodegree.udacity.stefanie.at.bakingmaster.R;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.RecipeAdapter;
 import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.loader.RecipeLoader;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
 
 /**
  * Created by steffy on 13/08/2017.
@@ -27,7 +31,6 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 public class RecipeListFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Recipe>>,
         RecipeAdapter.CallbackClickListener {
-    public static final String RECIPE_ARGUMENT = "recipe_argument";
 
 
     private static final String TAG = RecipeListFragment.class.getSimpleName();
@@ -66,11 +69,6 @@ public class RecipeListFragment extends Fragment implements LoaderManager.Loader
 
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.app_name));
-    }
 
     @Override
     public Loader<List<Recipe>> onCreateLoader(int id, Bundle args) {
@@ -109,15 +107,9 @@ public class RecipeListFragment extends Fragment implements LoaderManager.Loader
     public void onClick(Recipe recipe) {
         if (recipe == null) return;
 
-        Bundle args = new Bundle();
-        args.putParcelable(RECIPE_ARGUMENT, recipe);
+        Intent i = new Intent(this.getActivity(), InstructionActivity.class);
+        i.putExtra(EXTRA_RECIPE, recipe);
+        startActivity(i);
 
-        Fragment instructionFragment = new InstructionFragment();
-        instructionFragment.setArguments(args);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .addToBackStack(MainActivity.FRAGMENT_INSTRUCTIONS)
-                .replace(R.id.content, instructionFragment,
-                        MainActivity.FRAGMENT_INSTRUCTIONS).commit();
     }
 }

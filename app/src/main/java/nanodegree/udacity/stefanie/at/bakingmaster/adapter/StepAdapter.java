@@ -18,13 +18,18 @@ import nanodegree.udacity.stefanie.at.bakingmaster.data.Step;
  */
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
+    public interface StepOnClickCallback{
+        void onStepClicked(int position);
+    }
 
+    private StepOnClickCallback callback;
     private final ArrayList<Step> steps;
     private final Context context;
 
-    public StepAdapter(Context context, ArrayList<Step> steps) {
+    public StepAdapter(Context context, ArrayList<Step> steps, StepOnClickCallback callback) {
         this.context = context;
         this.steps = steps;
+        this.callback = callback;
     }
 
     @Override
@@ -61,6 +66,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             Log.d("test", "clicked step");
+            if(callback != null) callback.onStepClicked(getAdapterPosition());
         }
     }
 }

@@ -18,6 +18,7 @@ public class Ingredient implements  Parcelable{
     private final int quantity;
     private final String measure;
     private final String ingredient;
+    private  boolean checked;
 
 
     public Ingredient(JSONObject jsonObject) {
@@ -30,6 +31,8 @@ public class Ingredient implements  Parcelable{
         quantity = in.readInt();
         measure = in.readString();
         ingredient = in.readString();
+        int checkValue = in.readInt();
+        checked = checkValue == 0 ? false : true;
     }
 
 
@@ -66,5 +69,15 @@ public class Ingredient implements  Parcelable{
         out.writeInt(quantity);
         out.writeString(measure);
         out.writeString(ingredient);
+        int checkedValue = checked ? 1 : 0;
+        out.writeInt(checkedValue);
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

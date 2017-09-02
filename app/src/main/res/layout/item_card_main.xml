@@ -54,7 +54,6 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/txt_overview"
             android:layout_marginTop="10dp"
-            android:padding="10dp"
             android:text="@string/show_receipe"
             android:background="?android:attr/selectableItemBackground"/>
     </RelativeLayout>
