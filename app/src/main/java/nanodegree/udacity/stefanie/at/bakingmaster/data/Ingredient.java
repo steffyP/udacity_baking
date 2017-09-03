@@ -15,20 +15,20 @@ import org.json.JSONObject;
  * "ingredient": "Graham Cracker crumbs"
  */
 public class Ingredient implements  Parcelable{
-    private final int quantity;
+    private final double quantity;
     private final String measure;
     private final String ingredient;
     private  boolean checked;
 
 
     public Ingredient(JSONObject jsonObject) {
-        quantity = jsonObject.optInt("quantity");
+        quantity = jsonObject.optDouble("quantity");
         measure = jsonObject.optString("measure");
         ingredient = jsonObject.optString("ingredient");
     }
 
     public Ingredient(Parcel in) {
-        quantity = in.readInt();
+        quantity = in.readDouble();
         measure = in.readString();
         ingredient = in.readString();
         int checkValue = in.readInt();
@@ -36,7 +36,7 @@ public class Ingredient implements  Parcelable{
     }
 
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -66,7 +66,7 @@ public class Ingredient implements  Parcelable{
 
     @Override
     public void writeToParcel(Parcel out, int i) {
-        out.writeInt(quantity);
+        out.writeDouble(quantity);
         out.writeString(measure);
         out.writeString(ingredient);
         int checkedValue = checked ? 1 : 0;
@@ -79,5 +79,10 @@ public class Ingredient implements  Parcelable{
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public String toString() {
+        return quantity + " " + measure + " " + ingredient;
     }
 }

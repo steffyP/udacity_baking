@@ -16,4 +16,8 @@
     <string name="previous_step">Previous Step</string>
     <string name="next_step">Next Step</string>
     <string name="no_video_available">No video available</string>
+    <string name="recipe_not_found">Recipe not found</string>
+    <string name="select_recipe">Select Recipe to show ingredients</string>
+    <string name="add_widget">Add widget</string>
+    <string name="no_recipe_found">No recipe found, please check your internet connection</string>
 </resources>

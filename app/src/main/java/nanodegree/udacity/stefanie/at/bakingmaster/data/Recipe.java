@@ -131,10 +131,7 @@ public class Recipe implements Parcelable {
     private ArrayList<Ingredient> ingredients;
 
     public Recipe(JSONObject jsonObject) {
-        Iterator<String> iterator = jsonObject.keys();
-        while (iterator.hasNext()) {
-            Log.d(TAG, "key: " + iterator.next());
-        }
+
         id = jsonObject.optInt("id");
         name = jsonObject.optString("name");
         servings = jsonObject.optInt("servings");
@@ -171,7 +168,7 @@ public class Recipe implements Parcelable {
         image = in.readString();
 
         ingredients = new ArrayList<>();
-        in.readTypedList(ingredients,Ingredient.CREATOR);
+        in.readTypedList(ingredients, Ingredient.CREATOR);
 
         steps = new ArrayList<>();
         in.readTypedList(steps, Step.CREATOR);
@@ -234,4 +231,13 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Recipe) {
+            if (((Recipe) obj).getId() == this.id)
+                return true; // very simplified equals, but ok for this example; we assume that id is unique and identifies the recipe
+        }
+        return false;
+    }
 }

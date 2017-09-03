@@ -25,15 +25,9 @@ public class StepDetailsActivity extends AppCompatActivity  {
     public static final String EXTRA_STEP = "extra_step";
     public static final String DETAILS_FRAGMENT = "DETAILS_FRAGMENT";
 
-    private Step step;
     private Recipe recipe;
-    private View next;
-    private View previous;
     private int stepPos;
-    private SimpleExoPlayerView playerView;
-    private SimpleExoPlayer exoPlayer;
-    private View noVideoView;
-    private TextView detailsTextView;
+
     private DetailsFragment fragment;
 
     @Override

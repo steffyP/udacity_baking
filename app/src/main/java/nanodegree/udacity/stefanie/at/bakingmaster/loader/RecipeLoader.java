@@ -31,7 +31,6 @@ public class RecipeLoader extends AsyncTaskLoader<List<Recipe>> {
 
     public RecipeLoader(Context context) {
         super(context);
-        Log.d(TAG, "created receiptloader");
     }
 
     @Override

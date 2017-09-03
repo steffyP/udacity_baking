@@ -1,9 +1,7 @@
 package nanodegree.udacity.stefanie.at.bakingmaster.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
-import nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.IngredientAdapter;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.StepAdapter;
 import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
