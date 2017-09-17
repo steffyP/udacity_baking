@@ -17,7 +17,7 @@ import java.util.List;
 import nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity;
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.RecipeAdapter;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.loader.RecipeLoader;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;

@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Step;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
 
 /**
  * Created by steffy on 20/08/2017.
@@ -23,10 +24,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     }
 
     private StepOnClickCallback callback;
-    private final ArrayList<Step> steps;
+    private final List<Step> steps;
     private final Context context;
 
-    public StepAdapter(Context context, ArrayList<Step> steps, StepOnClickCallback callback) {
+    public StepAdapter(Context context, List<Step> steps, StepOnClickCallback callback) {
         this.context = context;
         this.steps = steps;
         this.callback = callback;

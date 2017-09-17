@@ -1,5 +1,10 @@
-package nanodegree.udacity.stefanie.at.bakingmaster.data;
+package nanodegree.udacity.stefanie.at.bakingmaster.database.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,12 +19,30 @@ import org.json.JSONObject;
  * "measure": "CUP",
  * "ingredient": "Graham Cracker crumbs"
  */
-public class Ingredient implements  Parcelable{
-    private final double quantity;
-    private final String measure;
-    private final String ingredient;
-    private  boolean checked;
+@Entity(indices = {
+            @Index("recipeId"),
+            @Index(value = {"recipeId", "quantity", "measure", "ingredient"},
+                unique = true)},
+        foreignKeys = @ForeignKey(
+        entity = Recipe.class,
+        parentColumns = "id",
+        childColumns = "recipeId")
+    )
+public class Ingredient implements Parcelable {
+    private double quantity;
+    private String measure;
+    private String ingredient;
+    @Ignore
+    private boolean checked;
+    private int recipeId;
 
+    @PrimaryKey(autoGenerate = true)
+    private int ingredientId;
+
+
+    public Ingredient() {
+
+    }
 
     public Ingredient(JSONObject jsonObject) {
         quantity = jsonObject.optDouble("quantity");
@@ -35,6 +58,13 @@ public class Ingredient implements  Parcelable{
         checked = checkValue == 0 ? false : true;
     }
 
+    public int getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId = ingredientId;
+    }
 
     public double getQuantity() {
         return quantity;
@@ -48,6 +78,7 @@ public class Ingredient implements  Parcelable{
         return ingredient;
     }
 
+
     public static final Parcelable.Creator<Ingredient> CREATOR
             = new Parcelable.Creator<Ingredient>() {
         public Ingredient createFromParcel(Parcel in) {
@@ -58,6 +89,7 @@ public class Ingredient implements  Parcelable{
             return new Ingredient[size];
         }
     };
+
 
     @Override
     public int describeContents() {
@@ -73,10 +105,12 @@ public class Ingredient implements  Parcelable{
         out.writeInt(checkedValue);
     }
 
+    @Ignore
     public boolean isChecked() {
         return checked;
     }
 
+    @Ignore
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
@@ -84,5 +118,25 @@ public class Ingredient implements  Parcelable{
     @Override
     public String toString() {
         return quantity + " " + measure + " " + ingredient;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
     }
 }

@@ -1,15 +1,17 @@
-package nanodegree.udacity.stefanie.at.bakingmaster.data;
+package nanodegree.udacity.stefanie.at.bakingmaster.database.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by steffy on 13/08/2017.
@@ -120,15 +122,23 @@ import java.util.Iterator;
  * "image": ""
  * },
  */
+@Entity
 public class Recipe implements Parcelable {
 
-    private static final String TAG = Recipe.class.getSimpleName();
-    private final int id;
-    private final String name;
-    private final int servings;
-    private final String image;
-    private final ArrayList<Step> steps;
-    private ArrayList<Ingredient> ingredients;
+
+    @PrimaryKey
+    private int id;
+    private String name;
+    private int servings;
+    private String image;
+    @Ignore
+    private List<Step> steps;
+    @Ignore
+    private List<Ingredient> ingredients;
+
+    public Recipe() {
+
+    }
 
     public Recipe(JSONObject jsonObject) {
 
@@ -174,6 +184,7 @@ public class Recipe implements Parcelable {
         in.readTypedList(steps, Step.CREATOR);
     }
 
+    @Ignore
     @Override
     public void writeToParcel(Parcel out, int i) {
         out.writeInt(id);
@@ -198,29 +209,38 @@ public class Recipe implements Parcelable {
         return servings;
     }
 
+
     public String getImage() {
-        if (image.isEmpty()) {
-            for (Step s : steps) {
-                if (!s.getThumbnailURL().isEmpty()) return s.getThumbnailURL();
-            }
-        }
         return image;
     }
 
-    public ArrayList<Step> getSteps() {
+    @Ignore
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    @Ignore
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
+    @Ignore
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    @Ignore
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    @Ignore
     @Override
     public int describeContents() {
         return 0;
     }
 
-
+    @Ignore
     public static final Parcelable.Creator<Recipe> CREATOR
             = new Parcelable.Creator<Recipe>() {
         public Recipe createFromParcel(Parcel in) {
@@ -232,6 +252,7 @@ public class Recipe implements Parcelable {
         }
     };
 
+    @Ignore
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Recipe) {
@@ -240,4 +261,22 @@ public class Recipe implements Parcelable {
         }
         return false;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
 }

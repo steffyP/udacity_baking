@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Step;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
 
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
 import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;

@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -20,7 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -37,7 +34,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
 import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assume.assumeTrue;
 

@@ -9,9 +9,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Ingredient;
 
 /**
  * Created by steffy on 20/08/2017.
@@ -26,10 +27,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     private IngredientCheckCallback callback;
     private final Context context;
-    private final ArrayList<Ingredient> ingredients;
+    private final List<Ingredient> ingredients;
 
     public IngredientAdapter(Context context,
-                             ArrayList<Ingredient> ingredients,
+                             List<Ingredient> ingredients,
                              IngredientCheckCallback callback) {
         this.context = context;
         this.ingredients = ingredients;

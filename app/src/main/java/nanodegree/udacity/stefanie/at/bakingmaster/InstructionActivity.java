@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Step;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.InstructionFragment;
 
@@ -37,6 +35,8 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction);
+        getIntent().setExtrasClassLoader(Recipe.class.getClassLoader());
+
         recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
 
         Fragment fragment = new InstructionFragment();

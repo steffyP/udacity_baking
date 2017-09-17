@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 
 /**
  * Created by steffy on 20/08/2017.

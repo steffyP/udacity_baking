@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 
 /**
  * Created by steffy on 13/08/2017.

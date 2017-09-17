@@ -15,8 +15,8 @@ import android.widget.TextView;
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.IngredientAdapter;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.StepAdapter;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Ingredient;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
 

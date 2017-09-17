@@ -1,6 +1,5 @@
-package nanodegree.udacity.stefanie.at.bakingmaster;
+package nanodegree.udacity.stefanie.at.bakingmaster.widget;
 
-import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +16,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Ingredient;
-import nanodegree.udacity.stefanie.at.bakingmaster.data.Recipe;
+import nanodegree.udacity.stefanie.at.bakingmaster.R;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.DatabaseUtil;
+import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.loader.RecipeLoader;
 
 /**
@@ -26,7 +26,7 @@ import nanodegree.udacity.stefanie.at.bakingmaster.loader.RecipeLoader;
  */
 public class IngredientsWidgetConfigureActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Recipe>> {
 
-    private static final String PREFS_NAME = "nanodegree.udacity.stefanie.at.bakingmaster.IngredientsWidget";
+    private static final String PREFS_NAME = "nanodegree.udacity.stefanie.at.bakingmaster.widget.IngredientsWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     private static final String PREF_INGREDIENT = "ingredient_";
     private static final String PREF_RECIPE_TITLE = "recipe_";
@@ -37,6 +37,7 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
 
     private ArrayAdapter<String> recipeAdapter;
     private View noTextView;
+    private View progress;
 
     public IngredientsWidgetConfigureActivity() {
         super();
@@ -68,25 +69,23 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
     }
 
     // Write the prefix to the SharedPreferences object for this widget
-    static void saveRecipe(Context context, int appWidgetId, String text) {
+    static void saveRecipeId(Context context, int appWidgetId, int id) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putString(PREF_PREFIX_KEY + PREF_RECIPE_TITLE + appWidgetId, text);
+        prefs.putInt(PREF_PREFIX_KEY + PREF_RECIPE_TITLE + appWidgetId, id);
         prefs.apply();
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
-    static String loadRecipe(Context context, int appWidgetId) {
+    static int loadRecipeId(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + PREF_RECIPE_TITLE + appWidgetId, null);
-        if (titleValue != null) {
-            return titleValue;
-        } else {
-            return context.getString(R.string.recipe_not_found);
-        }
+        int id = prefs.getInt(PREF_PREFIX_KEY + PREF_RECIPE_TITLE + appWidgetId, 0);
+
+       return id;
+
     }
 
-    static void deleteRecipe(Context context, int appWidgetId) {
+    static void deleteRecipeId(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.remove(PREF_PREFIX_KEY + PREF_RECIPE_TITLE + appWidgetId);
         prefs.apply();
@@ -103,6 +102,7 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
         setContentView(R.layout.ingredients_widget_configure);
 
         listView = findViewById(R.id.listview_recipe);
+        progress = findViewById(R.id.progress);
         noTextView = findViewById(R.id.no_recipe);
 
         // Find the widget id from the intent.
@@ -131,6 +131,8 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
 
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, final List<Recipe> data) {
+        progress.setVisibility(View.GONE);
+
         if (data == null || data.isEmpty()) {
             listView.setVisibility(View.GONE);
             noTextView.setVisibility(View.VISIBLE);
@@ -139,19 +141,23 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
             for (Recipe r : data) {
                 recipeTitle.add(r.getName());
             }
-            recipeAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipeTitle);
+
+            recipeAdapter = new ArrayAdapter(this, R.layout.item_simple_list_view, recipeTitle);
+            listView.setVisibility(View.VISIBLE);
+
             listView.setAdapter(recipeAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                     Recipe recipe = data.get(pos);
                     final Context context = IngredientsWidgetConfigureActivity.this;
+                    DatabaseUtil.insertRecipeInBackground(context, recipe);
 
-                    saveRecipe(context, mAppWidgetId, recipe.getName());
-                    saveIngredients(context, mAppWidgetId, getIngredientsFromReceipt(recipe));
+                    saveRecipeId(context, mAppWidgetId, recipe.getId());
+
                     // It is the responsibility of the configuration activity to update the app widget
                     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                    IngredientsWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+                    IngredientsWidget.updateRemoteViewAppWidget(context, appWidgetManager, mAppWidgetId);
 
                     // Make sure we pass back the original appWidgetId
                     Intent resultValue = new Intent();
@@ -168,16 +174,6 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity implem
     }
 
 
-    private String getIngredientsFromReceipt(Recipe recipe) {
 
-        String ingredients = "";
-        for (Ingredient i : recipe.getIngredients()) {
-            ingredients += "- " + i.toString() + "\n";
-        }
-        if (ingredients.length() > 0) {
-            ingredients = ingredients.substring(0, ingredients.length() - 1);
-        }
-        return ingredients;
-    }
 }
 
