@@ -4,8 +4,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    android:padding="5dp"
+    android:layout_margin="@dimen/smaller_margin"
+    android:padding="@dimen/smaller_margin"
     android:text="@string/recipe_not_found"
     android:textColor="@color/colorPrimaryDark"
     android:textSize="22sp" />

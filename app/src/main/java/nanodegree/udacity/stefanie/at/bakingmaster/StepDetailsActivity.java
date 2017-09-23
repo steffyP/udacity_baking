@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
@@ -52,10 +53,13 @@ public class StepDetailsActivity extends AppCompatActivity  {
 
 
     @Override
-    public Intent getParentActivityIntent() {
-        Intent intent = super.getParentActivityIntent();
-        intent.putExtra(EXTRA_RECIPE, recipe);
-        return intent;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

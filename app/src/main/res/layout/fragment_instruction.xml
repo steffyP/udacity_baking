@@ -6,7 +6,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="@dimen/standard_margin"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
     tool:showIn="@layout/activity_instruction">
@@ -16,7 +16,7 @@
         style="@style/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/smaller_margin"
         android:text="@string/directions" />
 
 

@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
-
+ext {
+    supportLibVersion = '26.0.0'
+}
 android {
+
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -33,20 +36,20 @@ dependencies {
         exclude module: 'design'
 
     }
-    androidTestCompile 'com.android.support:support-annotations:26.0.0'
+    androidTestCompile "com.android.support:support-annotations:${supportLibVersion}"
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
 
     androidTestCompile 'com.android.support.test:runner:0.5'
 
-    compile 'com.android.support:appcompat-v7:26.0.0'
-    compile 'com.android.support:design:26.0.0'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile 'com.google.android.exoplayer:exoplayer:r2.5.1'
-    compile 'com.android.support:cardview-v7:26.0.0'
-    compile 'com.android.support:recyclerview-v7:26.0.0'
+    compile "com.android.support:cardview-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 

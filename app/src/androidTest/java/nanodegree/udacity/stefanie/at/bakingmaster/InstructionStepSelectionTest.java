@@ -115,11 +115,9 @@ public class InstructionStepSelectionTest {
     @Test
     public void testStepsShown(){
 
-        onView(withId(R.id.recycler_view_ingredients)).check(matches(hasDescendant(withText("0.5 CUP granulated sugar"))));
-        onView(withId(R.id.recycler_view_ingredients)).check(new RecylcerViewItemCountAssertion(3));
 
         onView(withId(R.id.recycler_view_steps)).check(matches(hasDescendant(withText("Recipe Step 1"))));
-        onView(withId(R.id.recycler_view_steps)).check(new RecylcerViewItemCountAssertion(3));
+        onView(withId(R.id.recycler_view_steps)).check(new RecylcerViewItemCountAssertion(4)); // 3 steps + 1 for instructions
 
     }
 
@@ -147,7 +145,7 @@ public class InstructionStepSelectionTest {
 
 
         onView(withId(R.id.recycler_view_steps))
-                .perform(actionOnItemAtPosition(1,
+                .perform(actionOnItemAtPosition(2,
                         click()));
 
         onView(withId(R.id.details)).check(matches(withText("2. this is the description for task 2")));

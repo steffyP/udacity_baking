@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
-    android:padding="2dp"
+    android:padding="@dimen/smaller_margin"
     android:id="@+id/layout"
    >
 
@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/ingredient"
         android:layout_width="0dp"
-        android:paddingLeft="2dp"
+        android:paddingLeft="@dimen/smaller_margin"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:textColor="@color/colorPrimary"

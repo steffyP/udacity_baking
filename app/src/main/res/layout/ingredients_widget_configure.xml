@@ -8,15 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/standard_margin">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/smaller_margin"
+            android:layout_marginRight="@dimen/smaller_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:text="@string/select_recipe"
             android:textSize="20sp" />
 
@@ -38,7 +38,7 @@
             android:id="@+id/no_recipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_margin"
             android:gravity="center"
             android:text="@string/no_recipe_found"
             android:textColor="@color/colorPrimary"

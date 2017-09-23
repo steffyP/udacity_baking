@@ -249,6 +249,13 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
         if (exoPlayer != null) exoPlayer.release();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(true);
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -338,7 +345,8 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
     public void updateContent(int pos) {
         getArguments().putInt(EXTRA_POSITION, pos);
         position = pos;
-        exoPlayer.stop();
+        updatePlayer();
+
         updateContent();
     }
 

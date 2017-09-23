@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.InstructionFragment;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_POSITION;
 
 /**
@@ -47,7 +50,13 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
                 .replace(R.id.container, fragment)
                 .commit();
 
-       twoPane = getResources().getInteger(R.integer.sw_600) == 0 ? false : true;
+
+        twoPane = getResources().getInteger(R.integer.sw_600) == 1;
+        if(twoPane && getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
+            twoPane = false;
+        }
+
+
 
         if (twoPane) {
             if (savedInstanceState == null) {
@@ -96,5 +105,14 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
             stepPos = 0;
             fragment.updateContent(pos);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

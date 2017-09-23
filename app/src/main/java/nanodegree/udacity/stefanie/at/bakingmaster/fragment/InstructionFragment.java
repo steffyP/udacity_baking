@@ -57,6 +57,7 @@ public class InstructionFragment extends Fragment implements StepAdapter.StepOnC
         stepsRecyclerView.setHasFixedSize(true);
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         stepsRecyclerView.setAdapter(new StepAdapter(getActivity(), recipe.getSteps(), this));
+
         return view;
     }
 
