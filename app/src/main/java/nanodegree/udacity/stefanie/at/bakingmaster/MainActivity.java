@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getString(R.string.app_name));
 
+        // the "magic" happens in the layout, the fragment is included
     }
 
 

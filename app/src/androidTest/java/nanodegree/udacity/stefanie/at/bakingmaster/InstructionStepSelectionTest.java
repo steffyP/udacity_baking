@@ -33,7 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
-import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;
+import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_POSITION;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assume.assumeTrue;
 
@@ -134,7 +134,7 @@ public class InstructionStepSelectionTest {
         onView(withId(R.id.recycler_view_steps))
                 .perform(actionOnItemAtPosition(0,
                         click()));
-        intended(allOf(hasExtras(allOf(hasEntry(EXTRA_RECIPE, recipe),hasEntry(EXTRA_STEP, 0))), hasComponent(StepDetailsActivity.class.getName())));
+        intended(allOf(hasExtras(allOf(hasEntry(EXTRA_RECIPE, recipe),hasEntry(EXTRA_POSITION, 0))), hasComponent(StepDetailsActivity.class.getName())));
 
         Intents.release();
 

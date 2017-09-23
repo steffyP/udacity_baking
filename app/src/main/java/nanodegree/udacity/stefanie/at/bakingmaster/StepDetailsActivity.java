@@ -15,7 +15,7 @@ import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EX
  */
 
 public class StepDetailsActivity extends AppCompatActivity  {
-    public static final String EXTRA_STEP = "extra_step";
+    public static final String EXTRA_POSITION = "extra_step";
     public static final String DETAILS_FRAGMENT = "DETAILS_FRAGMENT";
 
     private Recipe recipe;
@@ -29,15 +29,15 @@ public class StepDetailsActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_step);
 
         if (savedInstanceState != null) {
-            stepPos = savedInstanceState.getInt(EXTRA_STEP);
+            stepPos = savedInstanceState.getInt(EXTRA_POSITION);
         } else {
-            stepPos = getIntent().getExtras().getInt(EXTRA_STEP);
+            stepPos = getIntent().getExtras().getInt(EXTRA_POSITION);
         }
         recipe = getIntent().getExtras().getParcelable(EXTRA_RECIPE);
 
         if(savedInstanceState == null) {
             Bundle bundle = new Bundle();
-            bundle.putInt(EXTRA_STEP, stepPos);
+            bundle.putInt(EXTRA_POSITION, stepPos);
             bundle.putParcelable(EXTRA_RECIPE, recipe);
             fragment = new DetailsFragment();
             fragment.setArguments(bundle);

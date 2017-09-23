@@ -19,7 +19,10 @@ import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
  */
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
-    public interface StepOnClickCallback{
+    private static final int TYPE_INGREDIENTS = 0;
+    private static final int TYPE_STEP = 1;
+
+    public interface StepOnClickCallback {
         void onStepClicked(int position);
     }
 
@@ -42,17 +45,28 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(StepAdapter.ViewHolder holder, int position) {
-        Step step = steps.get(position);
+        if (getItemViewType(position) == TYPE_INGREDIENTS) {
+            holder.textView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.textView.setText(context.getString(R.string.ingredients));
+        } else if (getItemViewType(position) == TYPE_STEP) {
+            holder.textView.setTextColor(context.getResources().getColor(R.color.grey));
 
-        holder.textView.setText(step.getShortDescription());
+            Step step = steps.get(position - 1);
+            holder.textView.setText(step.getShortDescription());
+        }
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) return TYPE_INGREDIENTS;
+        return TYPE_STEP;
     }
 
     @Override
     public int getItemCount() {
         if (steps == null) return 0;
 
-        return steps.size();
+        return steps.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,7 +81,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             Log.d("test", "clicked step");
-            if(callback != null) callback.onStepClicked(getAdapterPosition());
+            if (callback != null) callback.onStepClicked(getAdapterPosition());
         }
     }
 }

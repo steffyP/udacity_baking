@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Step;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.InstructionFragment;
 
-import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_STEP;
+import static nanodegree.udacity.stefanie.at.bakingmaster.StepDetailsActivity.EXTRA_POSITION;
 
 /**
  * Created by steffy on 20/08/2017.
@@ -48,18 +47,13 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
                 .replace(R.id.container, fragment)
                 .commit();
 
-        View view = findViewById(R.id.container_details);
-        if (view == null) {
-            twoPane = false;
-        } else {
-            twoPane = true;
-        }
+       twoPane = getResources().getInteger(R.integer.sw_600) == 0 ? false : true;
 
         if (twoPane) {
             if (savedInstanceState == null) {
                 stepPos = 0;
             } else {
-                stepPos = savedInstanceState.getInt(EXTRA_STEP);
+                stepPos = savedInstanceState.getInt(EXTRA_POSITION);
             }
             step = recipe.getSteps().get(stepPos);
             setContentTwoPane();
@@ -73,14 +67,14 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(EXTRA_STEP, stepPos);
+        outState.putInt(EXTRA_POSITION, stepPos);
     }
 
     private void setContentTwoPane() {
         fragment = new DetailsFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putInt(EXTRA_STEP, stepPos);
+        bundle.putInt(EXTRA_POSITION, stepPos);
         bundle.putParcelable(EXTRA_RECIPE, recipe);
         fragment.setArguments(bundle);
 
@@ -96,7 +90,7 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
         if (!twoPane) {
             Intent i = new Intent(this, StepDetailsActivity.class);
             i.putExtra(EXTRA_RECIPE, recipe);
-            i.putExtra(EXTRA_STEP, pos);
+            i.putExtra(EXTRA_POSITION, pos);
             startActivity(i);
         } else {
             stepPos = 0;

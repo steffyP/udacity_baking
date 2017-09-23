@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#002171</color>
     <color name="colorAccent">#ff9800</color>
 
-    <color name="blackAlpha">#66000000</color>
-    <color name="whiteAlpha">#66FFFFFF</color>
+    <color name="blackAlpha">#55000000</color>
+    <color name="whiteAlpha">#88FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="grey">#a4a4a4</color>
+    <color name="grey">#787878</color>
     <color name="colorAccent_alpha">#66ff9800</color>
     <color name="white">#FFFFFF</color>
 
