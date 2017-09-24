@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.R;
 import nanodegree.udacity.stefanie.at.bakingmaster.adapter.IngredientAdapter;
@@ -74,14 +77,6 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
 
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
 
-        if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(EXTRA_POSITION);
-            positionInMillis = savedInstanceState.getLong(EXTRA_PLAYER_POSITION, 0);
-        } else {
-            position = getArguments().getInt(EXTRA_POSITION);
-            positionInMillis = 0;
-        }
-
         recipe = getArguments().getParcelable(EXTRA_RECIPE);
         detailsTextView = ((TextView) view.findViewById(R.id.details));
         next = view.findViewById(R.id.next);
@@ -102,23 +97,10 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
 
         initButtonListener();
 
-        if (getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE) {
-            if (getResources().getInteger(R.integer.sw_600) == 1) {
-                // tablet is landscape, so it shows both layouts
-                isPlayerFullScreen = false;
-            } else {
-                isPlayerFullScreen = true;
-            }
-        } else {
-            isPlayerFullScreen = false;
-        }
+        // fullscreen only for landscape and sw smaller 600dp
+        isPlayerFullScreen = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE
+                && getResources().getInteger(R.integer.sw_600) == 0;
 
-        if (position == 0) {
-            updateIngredientView();
-        } else {
-            stepPos = position - 1;
-            updateContent();
-        }
 
         return view;
 
@@ -189,7 +171,7 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
     private void loadVideo() {
         exoPlayer.setPlayWhenReady(false);
         Step step = recipe.getSteps().get(stepPos);
-        if (step.getVideoURL() != null && !step.getVideoURL().isEmpty()) {
+        if (!TextUtils.isEmpty(step.getVideoURL())) {
             playerView.setVisibility(View.VISIBLE);
             noVideoView.setVisibility(GONE);
             String userAgent = Util.getUserAgent(getActivity(), "BakingMaster");
@@ -233,28 +215,43 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
             });
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(EXTRA_POSITION);
+            positionInMillis = savedInstanceState.getLong(EXTRA_PLAYER_POSITION, 0);
+        } else {
+            position = getArguments().getInt(EXTRA_POSITION);
+            positionInMillis = 0;
+        }
+
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         if (exoPlayer != null) {
+            positionInMillis = exoPlayer.getCurrentPosition();
             exoPlayer.setPlayWhenReady(false);
             exoPlayer.stop();
+
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (exoPlayer != null) exoPlayer.release();
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(exoPlayer != null) {
-            exoPlayer.setPlayWhenReady(true);
-        }
+        updateContent();
     }
 
     @Override
@@ -285,7 +282,7 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
         }
 
 
-        if(! isPlayerFullScreen) {
+        if (!isPlayerFullScreen) {
             showDetailsForStep(step);
         }
     }
@@ -294,7 +291,7 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
         detailsTextView.setText(step.getDescription());
 
         String image = step.getThumbnailURL();
-        if (!image.isEmpty())
+        if (!TextUtils.isEmpty(image))
             Picasso.with(getContext()).load(image).error(R.drawable.no_image).into(thumbNailImageView);
         else
             thumbNailImageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.no_image));
@@ -344,7 +341,9 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
 
     public void updateContent(int pos) {
         getArguments().putInt(EXTRA_POSITION, pos);
+        getArguments().putLong(EXTRA_PLAYER_POSITION, 0);
         position = pos;
+        positionInMillis = 0; // reset the stored position - it is a new video :)
         updatePlayer();
 
         updateContent();

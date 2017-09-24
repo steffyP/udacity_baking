@@ -32,6 +32,8 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
     private Step step;
     private int stepPos;
     private DetailsFragment fragment;
+    private static final String INSTRUCTION_FRAGMENT = "instruction_fragment";
+    private String DETAILS_TWO_PANE_FRAGMENT = "details_two_pane_fragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,29 +42,34 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
         getIntent().setExtrasClassLoader(Recipe.class.getClassLoader());
 
         recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
-
-        Fragment fragment = new InstructionFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_RECIPE, recipe);
+
+        Fragment fragment;
+        if(savedInstanceState != null){
+            fragment = getSupportFragmentManager().findFragmentByTag(INSTRUCTION_FRAGMENT);
+        }else {
+            fragment = new InstructionFragment();
+        }
+
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, fragment, INSTRUCTION_FRAGMENT)
                 .commit();
 
 
         twoPane = getResources().getInteger(R.integer.sw_600) == 1;
-        if(twoPane && getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
-            twoPane = false;
-        }
-
 
 
         if (twoPane) {
             if (savedInstanceState == null) {
                 stepPos = 0;
+                this.fragment = new DetailsFragment();
+
             } else {
                 stepPos = savedInstanceState.getInt(EXTRA_POSITION);
+                this.fragment = (DetailsFragment) getSupportFragmentManager().findFragmentByTag(DETAILS_TWO_PANE_FRAGMENT);
             }
             step = recipe.getSteps().get(stepPos);
             setContentTwoPane();
@@ -80,7 +87,6 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
     }
 
     private void setContentTwoPane() {
-        fragment = new DetailsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt(EXTRA_POSITION, stepPos);
@@ -88,7 +94,7 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_details, fragment)
+                .replace(R.id.container_details, fragment, DETAILS_TWO_PANE_FRAGMENT)
                 .commit();
 
         getSupportActionBar().setTitle(step.getShortDescription());

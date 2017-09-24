@@ -62,7 +62,7 @@ public class InstructionStepSelectionTest {
             "        \"quantity\": 0.5,\n" +
             "        \"measure\": \"CUP\",\n" +
             "        \"ingredient\": \"granulated sugar\"\n" +
-            "      }"+
+            "      }" +
             "    ],\n" +
             "    \"steps\": [\n" +
             "      {\n" +
@@ -85,7 +85,7 @@ public class InstructionStepSelectionTest {
             "        \"description\": \"This is a longer description for step 3. It should be longer just to for testing reasons. It could have been shorter though. This is just a dummy text.\",\n" +
             "        \"videoURL\": \"https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4\",\n" +
             "        \"thumbnailURL\": \"\"\n" +
-            "      }"+
+            "      }" +
             "    ],\n" +
             "    \"servings\": 4,\n" +
             "    \"image\": \"\"\n" +
@@ -96,11 +96,11 @@ public class InstructionStepSelectionTest {
     private Recipe recipe;
 
     @Before
-    public void setup(){
+    public void setup() {
         Context targetContext = InstrumentationRegistry.getInstrumentation()
                 .getTargetContext();
         Intent intent = new Intent(targetContext, InstructionActivity.class);
-         recipe = null;
+        recipe = null;
         try {
             recipe = new Recipe(new JSONObject(recipeJsonString));
             intent.putExtra(EXTRA_RECIPE, recipe);
@@ -113,7 +113,7 @@ public class InstructionStepSelectionTest {
     }
 
     @Test
-    public void testStepsShown(){
+    public void testStepsShown() {
 
 
         onView(withId(R.id.recycler_view_steps)).check(matches(hasDescendant(withText("Recipe Step 1"))));
@@ -122,26 +122,25 @@ public class InstructionStepSelectionTest {
     }
 
 
-
     @Test
-    public void testSelectFirstStepPhone(){
-        assumeTrue(! isScreenWidthSw600dp());
+    public void testSelectFirstStepPhone() {
+        assumeTrue(!isTwoPane());
 
         Intents.init();
 
         onView(withId(R.id.recycler_view_steps))
                 .perform(actionOnItemAtPosition(0,
                         click()));
-        intended(allOf(hasExtras(allOf(hasEntry(EXTRA_RECIPE, recipe),hasEntry(EXTRA_POSITION, 0))), hasComponent(StepDetailsActivity.class.getName())));
+        intended(allOf(hasExtras(allOf(hasEntry(EXTRA_RECIPE, recipe), hasEntry(EXTRA_POSITION, 0))), hasComponent(StepDetailsActivity.class.getName())));
 
         Intents.release();
 
     }
 
     @Test
-    public void testSelectSecondTablet(){
+    public void testSelectSecondTablet() {
         // the two pane mode will only shown on tablet in Landscape mode!
-        assumeTrue(isScreenWidthSw600dp() && isTwoPane());
+        assumeTrue(isTwoPane());
 
 
         onView(withId(R.id.recycler_view_steps))
@@ -155,12 +154,7 @@ public class InstructionStepSelectionTest {
     }
 
 
-    private boolean isScreenWidthSw600dp() {
-        return mActivityRule.getActivity().getResources().getInteger(R.integer.sw_600) == 0 ? false : true;
-    }
-
-
     public boolean isTwoPane() {
-        return mActivityRule.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return mActivityRule.getActivity().getResources().getInteger(R.integer.sw_600) == 0 ? false : true;
     }
 }
