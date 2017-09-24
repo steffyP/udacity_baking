@@ -45,6 +45,8 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_RECIPE, recipe);
 
+        // reuse the fragment if it has already been added
+        // it stores the saved instance!
         Fragment fragment;
         if(savedInstanceState != null){
             fragment = getSupportFragmentManager().findFragmentByTag(INSTRUCTION_FRAGMENT);
@@ -69,6 +71,8 @@ public class InstructionActivity extends AppCompatActivity implements Instructio
 
             } else {
                 stepPos = savedInstanceState.getInt(EXTRA_POSITION);
+                // reuse the fragment if it has already been added
+                // it stores the saved instance state!
                 this.fragment = (DetailsFragment) getSupportFragmentManager().findFragmentByTag(DETAILS_TWO_PANE_FRAGMENT);
             }
             step = recipe.getSteps().get(stepPos);
