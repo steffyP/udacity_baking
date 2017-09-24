@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import nanodegree.udacity.stefanie.at.bakingmaster.database.data.Recipe;
 import nanodegree.udacity.stefanie.at.bakingmaster.fragment.DetailsFragment;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static nanodegree.udacity.stefanie.at.bakingmaster.InstructionActivity.EXTRA_RECIPE;
 
 /**
@@ -26,7 +29,13 @@ public class StepDetailsActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE); //Remove title bar
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getSupportActionBar().hide();
+        }
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_step);
 
         if (savedInstanceState != null) {
@@ -35,6 +44,7 @@ public class StepDetailsActivity extends AppCompatActivity  {
             stepPos = getIntent().getExtras().getInt(EXTRA_POSITION);
         }
         recipe = getIntent().getExtras().getParcelable(EXTRA_RECIPE);
+
 
         if(savedInstanceState == null) {
             Bundle bundle = new Bundle();
@@ -47,6 +57,7 @@ public class StepDetailsActivity extends AppCompatActivity  {
         } else {
             fragment = (DetailsFragment) getSupportFragmentManager().findFragmentByTag(DETAILS_FRAGMENT);
         }
+
 
 
     }

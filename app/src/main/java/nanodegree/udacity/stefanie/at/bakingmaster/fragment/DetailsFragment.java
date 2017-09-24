@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,6 +102,7 @@ public class DetailsFragment extends Fragment implements Player.EventListener, I
         // fullscreen only for landscape and sw smaller 600dp
         isPlayerFullScreen = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE
                 && getResources().getInteger(R.integer.sw_600) == 0;
+
 
 
         return view;
